@@ -1,23 +1,60 @@
 package com.example.tasks.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "não pode ser vazio")
-    private String name;
+
+    private String title;
     private String description;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup taskGroup;
+
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public TaskGroup getTaskGroup() {
+        return taskGroup;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTaskGroup(TaskGroup taskGroup) {
+        this.taskGroup = taskGroup;
+    }
 }

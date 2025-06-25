@@ -2,32 +2,48 @@ package com.example.tasks.Controller;
 
 import com.example.tasks.Model.Task;
 import com.example.tasks.Service.TaskService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/tasks")
 public class TaskController {
+
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/all")
-    public List<Task> getAllTasks() {
-        return taskService.getAllTasks();
+    // Criar task vinculada a um task group
+    @PostMapping("/taskgroup/{taskGroupId}")
+    public ResponseEntity<Task> criar(@PathVariable Long taskGroupId, @RequestBody Task task) {
+        Task criada = taskService.criarTask(taskGroupId, task);
+        return ResponseEntity.ok(criada);
     }
 
+    // Listar todas as tasks
+    @GetMapping
+    public ResponseEntity<List<Task>> listarTodos() {
+        return ResponseEntity.ok(taskService.listarTodos());
+    }
+
+    // Buscar task por ID
     @GetMapping("/{id}")
-    public Optional<Task> getTaskById(@PathVariable Long id) {
-        return taskService.getTaskById(id);
+    public ResponseEntity<Task> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.buscarPorId(id));
     }
 
-    @PostMapping()
-    public Task postTasks(@Valid @RequestBody Task task) {
-        return taskService.saveTask(task);
+    // Atualizar task
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> atualizar(@PathVariable Long id, @RequestBody Task task) {
+        return ResponseEntity.ok(taskService.atualizar(id, task));
+    }
+
+    // Deletar task
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        taskService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }
