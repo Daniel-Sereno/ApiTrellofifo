@@ -1,5 +1,7 @@
 package com.example.tasks.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,10 +16,12 @@ public class TaskGroup {
     private String name;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "board_id")
     private Board board;
 
     @OneToMany(mappedBy = "taskGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Task> tasks;
 
     // Getters e Setters

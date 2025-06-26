@@ -1,5 +1,6 @@
 package com.example.tasks.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,7 @@ public class Task {
     private String status;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "task_group_id")
     private TaskGroup taskGroup;
 

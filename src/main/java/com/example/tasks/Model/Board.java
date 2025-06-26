@@ -1,6 +1,9 @@
 package com.example.tasks.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import java.util.List;
 
 @Entity
@@ -14,6 +17,7 @@ public class Board {
     private String description;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<TaskGroup> taskGroups;
 
     // Getters e Setters
